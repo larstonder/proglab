@@ -1,1 +1,1 @@
-# proglab
+# Programmeringslab
