@@ -19,6 +19,5 @@ def main():
             print(press)
         sleep(0.016)
 
-
 if __name__ == "__main__":
     main()
