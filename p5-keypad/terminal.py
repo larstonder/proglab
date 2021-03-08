@@ -1,7 +1,5 @@
 '''Helper for terminal control'''
 
-import termios
-import atexit
 import sys
 import os
 
@@ -11,6 +9,9 @@ def disable_echo():
     filedesc = sys.stdin.fileno()
     if not os.isatty(filedesc):
         return
+
+    import termios
+    import atexit
 
     def enable_echo(enabled):
         '''Set echo state for the given file descriptor'''
