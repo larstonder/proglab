@@ -6,6 +6,7 @@ from keypad import Keypad
 from ledboard import LedBoard
 from agent import Agent
 from fsm import FSM
+from rule import Rule
 from terminal import disable_echo, TerminalDisplayer
 
 COOL_TERMINAL = True
@@ -30,7 +31,10 @@ def main():
 
     agent = Agent(keypad, ledboard, 'password.txt')
 
-    fsm = FSM('start', 'end', agent)
+    fsm = FSM('S-Init', [], agent)
+
+    anysignal = lambda signal: True
+    fsm.add_rule(Rule('S-Init', 'S-Read', anysignal, lambda agent, signal: agent.prepare_passcode_entry()))
 
     agent.reset_passcode_entry()
     ledboard.power_off_animation()
