@@ -22,10 +22,10 @@ class Rule:
         """Returns true if the rule matches with the current state+signal"""
         return match(self.state1, current_state) and match(self.signal, current_signal)
 
-    def fire(self, agent):
+    def fire(self, agent, signal):
         """Performs the rule, returning the resulting state"""
         if self.action is not None:
-            self.action(agent)
+            self.action(agent, signal)
         return self.state2
 
 
