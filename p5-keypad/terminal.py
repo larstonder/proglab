@@ -59,13 +59,15 @@ class TerminalDisplayer:
         print()
         while True:
             with self.buffer_lock:
-                if not self.running:
-                    break
                 if self.framebuffer != self.currentbuffer:
                     self.currentbuffer = self.framebuffer
                     self.__cool_led_output()
                 self.framebuffer = self.current_state
+                if not self.running:
+                    break
             sleep(self.time_per_frame)
+        self.currentbuffer = self.framebuffer
+        self.__cool_led_output()
         print()
         print()
 

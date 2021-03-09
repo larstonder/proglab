@@ -32,7 +32,9 @@ def main():
 
     fsm = FSM('start', 'end', agent)
 
-    fsm.run()
+    agent.reset_passcode_entry()
+    ledboard.power_off_animation()
+    #fsm.run()
     
     if COOL_TERMINAL:
         displayer.stop_display_loop_thread()

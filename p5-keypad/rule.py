@@ -25,4 +25,4 @@ class Rule:
 
 def signal_is_digit(signal):
     """Just checking if a signal is a digit or not"""
-    return 48 <= ord(signal) <= 57
+    return ord('0') <= ord(signal) <= ord('9')

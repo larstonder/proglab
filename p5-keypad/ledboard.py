@@ -73,3 +73,23 @@ class LedBoard:
         """Twinkle all LEDs in sequence for k seconds"""
         for _ in range(int(k / (time_per*LED_COUNT))):
             self.light_in_series(range(LED_COUNT), time_per)
+    
+    def power_on_animation(self):
+        """Power on ledboard"""
+        for _ in range(30):
+            self.light_in_series([2,3], PARALLEL_LIGHT_TIME)
+        for _ in range(15):
+            self.light_in_series([1,2,3,4], PARALLEL_LIGHT_TIME)
+        for _ in range(10):
+            self.light_in_series([0,1,2,3,4,5], PARALLEL_LIGHT_TIME)
+    
+    def power_off_animation(self):
+        """Power off ledboard"""
+        for _ in range(10):
+            self.light_in_series([0,1,2,3,4,5], PARALLEL_LIGHT_TIME)
+        for _ in range(15):
+            self.light_in_series([1,2,3,4], PARALLEL_LIGHT_TIME)
+        for _ in range(30):
+            self.light_in_series([2,3], PARALLEL_LIGHT_TIME)
+        self.clear_leds()
+
