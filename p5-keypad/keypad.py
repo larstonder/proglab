@@ -1,6 +1,6 @@
 '''Keypad module'''
 
-from time import time
+from time import time, sleep
 from GPIOSimulator_v5 import *
 GPIO = GPIOSimulator()
 
@@ -14,6 +14,9 @@ KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#']
 # How long to press the key for
 PRESS_DURATION = 0.1
 REPEAT_KEY_DURATION = 1
+
+# How long to delay between each poll
+POLL_DELAY = 0.04
 
 class Keypad:
     '''Keypad class'''
@@ -56,3 +59,4 @@ class Keypad:
             press = self.do_polling()
             if press is not None:
                 return press
+            sleep(POLL_DELAY)

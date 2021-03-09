@@ -1,15 +1,15 @@
 '''Helper for terminal control'''
 
 import sys
-import os
 from threading import Thread, Lock
 from time import sleep
+from importlib import find_loader
 
 def disable_echo():
     '''Turn off echo in the terminal for the duration of the program'''
 
     filedesc = sys.stdin.fileno()
-    if not os.isatty(filedesc):
+    if find_loader("termios") is None:
         return
 
     import termios
@@ -33,7 +33,7 @@ def disable_echo():
 class TerminalDisplayer:
     """Class for writing LEDs to the terminal, with double buffering"""
 
-    def __init__(self, led_count, time_per_frame=0.04):
+    def __init__(self, led_count, time_per_frame=0.1):
         self.led_count = led_count
         self.time_per_frame = time_per_frame
         self.running = False
@@ -43,8 +43,8 @@ class TerminalDisplayer:
         self.buffer_lock = Lock()
 
     def __cool_led_output(self):
-        offchar = "\033[37m\u26AB"
-        onchar = "\033[31m\u26AB"
+        offchar = "\033[37m*"
+        onchar = "\033[31m*"
         reset = "\033[0m"
         chars = [(onchar if led else offchar) for led in self.currentbuffer]
         print("\r", *chars, sep="   ", end=reset, flush=True)
