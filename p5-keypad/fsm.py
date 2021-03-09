@@ -16,7 +16,7 @@ class FSM:
 
     def get_next_signal(self):
         """Query the agent for the next signal"""
-        return self.agent.get_signal()
+        return self.agent.get_next_signal()
 
     def run(self):
         """Runs the FSM until reaching the end state"""

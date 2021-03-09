@@ -4,6 +4,8 @@
 
 from keypad import Keypad
 from ledboard import LedBoard
+from agent import Agent
+from fsm import FSM
 from terminal import disable_echo, TerminalDisplayer
 
 COOL_TERMINAL = True
@@ -26,8 +28,12 @@ def main():
         ledboard = LedBoard()
     ledboard.setup()
 
-    ledboard.flash_all_leds(10)
+    agent = Agent(keypad, ledboard, 'password.txt')
 
+    fsm = FSM('start', 'end', agent)
+
+    fsm.run()
+    
     if COOL_TERMINAL:
         displayer.stop_display_loop_thread()
 

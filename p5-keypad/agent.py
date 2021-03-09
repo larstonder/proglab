@@ -2,23 +2,24 @@
 
 class Agent:
 
-    def __init__(self, keypad, ledboard, pathname, override_signal):
+    def __init__(self, keypad, ledboard, pathname):
         '''Inititialize agent'''
         self.keypad = keypad
         self.ledboard = ledboard
         self.pathname = pathname
-        self.override_signal = override_signal
+        self.override_signal = None
     
     def reset_passcode_entry(self):
         '''Clear the passcode-buffer and initiate a “power up” lighting
         sequence on the LED Board.'''
+        # self.keypad
     
     def get_next_signal(self):
         '''Returns the override signal, if it is non-blank; otherwise query the
         keypad for the next pressed key'''
         temp = self.override_signal
         self.override_signal = None
-        return temp if temp is not None else self.keypad.get_next_signal()
+        return self.keypad.get_next_signal() if temp is None else temp
     
     def verify_login(self):
         '''Checks that the password just entered via the keypad matches that in the
