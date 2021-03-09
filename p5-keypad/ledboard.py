@@ -57,7 +57,7 @@ class LedBoard:
             self.light_led(led)
             sleep(time_per)
 
-    def flash_all_leds(self, k, flash_speed=2):
+    def flash_all_leds(self, k, flash_speed=0.2):
         """Flash all LEDs for k seconds"""
         endtime = time() + k
         time_left = k
@@ -68,28 +68,31 @@ class LedBoard:
                 sleep(cleartime)
             self.light_in_series(range(LED_COUNT), PARALLEL_LIGHT_TIME)
             time_left = endtime - time()
+        self.clear_leds()
 
-    def twinkle_all_leds(self, k, time_per=0.2):
+    def twinkle_all_leds(self, k, time_per=0.1):
         """Twinkle all LEDs in sequence for k seconds"""
         for _ in range(int(k / (time_per*LED_COUNT))):
             self.light_in_series(range(LED_COUNT), time_per)
+        self.clear_leds()
     
     def power_on_animation(self):
         """Power on ledboard"""
-        for _ in range(30):
+        for _ in range(24):
             self.light_in_series([2,3], PARALLEL_LIGHT_TIME)
-        for _ in range(15):
+        for _ in range(12):
             self.light_in_series([1,2,3,4], PARALLEL_LIGHT_TIME)
-        for _ in range(10):
+        for _ in range(8):
             self.light_in_series([0,1,2,3,4,5], PARALLEL_LIGHT_TIME)
+        self.clear_leds()
     
     def power_off_animation(self):
         """Power off ledboard"""
-        for _ in range(10):
+        for _ in range(8):
             self.light_in_series([0,1,2,3,4,5], PARALLEL_LIGHT_TIME)
-        for _ in range(15):
+        for _ in range(12):
             self.light_in_series([1,2,3,4], PARALLEL_LIGHT_TIME)
-        for _ in range(30):
+        for _ in range(24):
             self.light_in_series([2,3], PARALLEL_LIGHT_TIME)
         self.clear_leds()
 

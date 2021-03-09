@@ -26,6 +26,6 @@ class FSM:
 
             for rule in self.rules:
                 if rule.match(state, signal):
-                    state = rule.fire(self.agent)
+                    state = rule.fire(self.agent, signal)
                     break
 

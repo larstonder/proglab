@@ -53,7 +53,7 @@ class TerminalDisplayer:
         onchar = "\033[31m*"
         reset = "\033[0m"
         chars = [(onchar if led else offchar) for led in self.currentbuffer]
-        print("\r", *chars, sep="   ", end=reset, flush=True)
+        print("\r\033[2K\r", *chars, sep="   ", end=reset, flush=True)
 
     def __display_loop(self):
         print()

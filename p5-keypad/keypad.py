@@ -12,7 +12,7 @@ COLS = [PIN_KEYPAD_COL_0, PIN_KEYPAD_COL_1, PIN_KEYPAD_COL_2]
 KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#']
 
 # How long to press the key for
-PRESS_DURATION = 0.1
+PRESS_DURATION = 0.02
 REPEAT_KEY_DURATION = 1
 
 # How long to delay between each poll
