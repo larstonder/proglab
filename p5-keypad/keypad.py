@@ -18,16 +18,19 @@ REPEAT_KEY_DURATION = 1
 class Keypad:
     '''Keypad class'''
     def __init__(self):
+        self.press_end = [None] * len(ROWS) * len(COLS)
+
+    @staticmethod
+    def setup():
+        """Initializes the GPIO pins"""
         for row in ROWS:
             GPIO.setup(row, GPIO.OUT)
         for col in COLS:
             GPIO.setup(col, GPIO.IN, state=GPIO.LOW)
 
-        self.press_end = [None] * len(ROWS) * len(COLS)
 
-    def poll(self):
-        """Checks the keypad for pressed buttons"""
-
+    def do_polling(self):
+        """Checks the keypad for pressed buttons, returns key or None"""
         press = None
 
         now = time()
@@ -46,3 +49,10 @@ class Keypad:
             GPIO.output(row, GPIO.LOW)
 
         return press
+
+    def get_next_signal(self):
+        """Polls until a key is pressed"""
+        while True:
+            press = self.do_polling()
+            if press is not None:
+                return press
