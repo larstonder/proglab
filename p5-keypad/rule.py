@@ -19,8 +19,14 @@ class Rule:
         self.action = action
 
     def match(self, current_state, current_signal):
-        """Returns true if the rule matches with the current state if applicable"""
+        """Returns true if the rule matches with the current state+signal"""
         return match(self.state1, current_state) and match(self.signal, current_signal)
+
+    def fire(self, agent, signal):
+        """Performs the rule, returning the resulting state"""
+        if self.action is not None:
+            self.action(agent, signal)
+        return self.state2
 
 
 def signal_is_digit(signal):
