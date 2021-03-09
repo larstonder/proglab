@@ -8,8 +8,9 @@ from terminal import disable_echo, TerminalDisplayer
 
 COOL_TERMINAL = True
 
+
 def main():
-    '''main function for keypad program'''
+    """main function for keypad program"""
 
     # Turn off repeating input
     disable_echo()
@@ -29,6 +30,7 @@ def main():
 
     if COOL_TERMINAL:
         displayer.stop_display_loop_thread()
+
 
 if __name__ == "__main__":
     main()
