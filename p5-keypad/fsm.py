@@ -1,5 +1,6 @@
 """Finite State Machine"""
 
+
 class FSM:
     """Class for finite state machines"""
 
@@ -27,3 +28,4 @@ class FSM:
                 if rule.match(state, signal):
                     state = rule.fire(self.agent)
                     break
+
