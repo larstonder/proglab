@@ -28,4 +28,3 @@ class FSM:
                 if rule.match(state, signal):
                     state = rule.fire(self.agent, signal)
                     break
-

@@ -22,7 +22,8 @@ def disable_echo():
 
     def enable_echo(enabled):
         '''Set echo state for the given file descriptor'''
-        (iflag, oflag, cflag, lflag, ispeed, ospeed, ccvalue) = termios.tcgetattr(filedesc)
+        (iflag, oflag, cflag, lflag, ispeed, ospeed,
+         ccvalue) = termios.tcgetattr(filedesc)
 
         if enabled:
             lflag |= termios.ECHO
@@ -76,7 +77,8 @@ class TerminalDisplayer:
         assert len(state) == self.led_count
         with self.buffer_lock:
             self.current_state = state
-            self.framebuffer = [prev or new for prev, new in zip(self.framebuffer, state)]
+            self.framebuffer = [prev or new for prev,
+                                new in zip(self.framebuffer, state)]
 
     def start_display_loop_thread(self):
         """Start the display update loop"""

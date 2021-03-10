@@ -11,23 +11,25 @@ P2 = PIN_CHARLIEPLEXING_2
 
 PINS = [P0, P1, P2]
 # What pins to set HIGH and LOW respectivly for the kth LED
-CHARLIEPLEXING_LEDS = [(P0, P1), (P1, P0), (P1, P2), (P2, P1), (P0, P2), (P2, P0)]
+CHARLIEPLEXING_LEDS = [(P0, P1), (P1, P0), (P1, P2),
+                       (P2, P1), (P0, P2), (P2, P0)]
 LED_COUNT = len(CHARLIEPLEXING_LEDS)
 
 # When simulating several LEDs being on at once, how long to flash each LED for
 PARALLEL_LIGHT_TIME = 0.006
+
 
 class LedBoard:
     """Class for controlling a Charlieplexed LED Board"""
 
     def __init__(self, output_function=None):
         if output_function is None:
-            output_function = lambda x: GPIO.show_leds_states()
+            def output_function(x): return GPIO.show_leds_states()
         self.output_function = output_function
 
     def show_leds_states(self, led=None):
         """Prints the state of the LEDs in the terminal"""
-        self.output_function([i==led for i in range(LED_COUNT)])
+        self.output_function([i == led for i in range(LED_COUNT)])
 
     def setup(self):
         """Initialize GPIO pins"""
@@ -75,24 +77,23 @@ class LedBoard:
         for _ in range(int(k / (time_per*LED_COUNT))):
             self.light_in_series(range(LED_COUNT), time_per)
         self.clear_leds()
-    
+
     def power_on_animation(self):
         """Power on ledboard"""
         for _ in range(24):
-            self.light_in_series([2,3], PARALLEL_LIGHT_TIME)
+            self.light_in_series([2, 3], PARALLEL_LIGHT_TIME)
         for _ in range(12):
-            self.light_in_series([1,2,3,4], PARALLEL_LIGHT_TIME)
+            self.light_in_series([1, 2, 3, 4], PARALLEL_LIGHT_TIME)
         for _ in range(8):
-            self.light_in_series([0,1,2,3,4,5], PARALLEL_LIGHT_TIME)
+            self.light_in_series([0, 1, 2, 3, 4, 5], PARALLEL_LIGHT_TIME)
         self.clear_leds()
-    
+
     def power_off_animation(self):
         """Power off ledboard"""
         for _ in range(8):
-            self.light_in_series([0,1,2,3,4,5], PARALLEL_LIGHT_TIME)
+            self.light_in_series([0, 1, 2, 3, 4, 5], PARALLEL_LIGHT_TIME)
         for _ in range(12):
-            self.light_in_series([1,2,3,4], PARALLEL_LIGHT_TIME)
+            self.light_in_series([1, 2, 3, 4], PARALLEL_LIGHT_TIME)
         for _ in range(24):
-            self.light_in_series([2,3], PARALLEL_LIGHT_TIME)
+            self.light_in_series([2, 3], PARALLEL_LIGHT_TIME)
         self.clear_leds()
-

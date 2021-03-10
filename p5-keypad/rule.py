@@ -12,7 +12,8 @@ def match(matcher, value):
 
 class Rule:
     """Rule class"""
-    def __init__(self, state1, state2, signal, action = None):
+
+    def __init__(self, state1, state2, signal, action=None):
         self.state1 = state1
         self.state2 = state2
         self.signal = signal

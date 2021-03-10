@@ -18,8 +18,10 @@ REPEAT_KEY_DURATION = 1
 # How long to delay between each poll
 POLL_DELAY = 0.04
 
+
 class Keypad:
     '''Keypad class'''
+
     def __init__(self):
         self.press_end = [None] * len(ROWS) * len(COLS)
 
@@ -30,7 +32,6 @@ class Keypad:
             GPIO.setup(row, GPIO.OUT)
         for col in COLS:
             GPIO.setup(col, GPIO.IN, state=GPIO.LOW)
-
 
     def do_polling(self):
         """Checks the keypad for pressed buttons, returns key or None"""
