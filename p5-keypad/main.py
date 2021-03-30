@@ -2,14 +2,14 @@
 
 '''Main keypad module'''
 
+from os.path import join, dirname, realpath
+
 from keypad import Keypad
 from ledboard import LedBoard
 from agent import Agent
 from fsm import FSM
 from rule import Rule, signal_is_digit
 from terminal import disable_echo, TerminalDisplayer
-
-from os.path import join, dirname, realpath
 
 PASSCODE_FILE = join(dirname(realpath(__file__)), "passcode.txt")
 
@@ -37,8 +37,10 @@ def main():
 
     fsm = FSM('S-Init', [], agent)
 
-    def any_signal(signal): return True
-    def signal_05(signal): return signal in ['0', '1', '2', '3', '4', '5']
+    def any_signal(_):
+        return True
+    def signal_05(signal):
+        return signal in ['0', '1', '2', '3', '4', '5']
     fsm.add_rule(Rule('S-Init', 'S-Read', any_signal,
                       lambda agent, _: agent.prepare_passcode_entry()))
     fsm.add_rule(Rule('S-Read', 'S-Read', signal_is_digit, lambda agent,
