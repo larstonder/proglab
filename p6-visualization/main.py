@@ -5,6 +5,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from tsne import TSNE
+
 def read_csv(filename, sep=","):
     """Reads the content of a csv into a numpy matrix. Each line becomes a row"""
     with open("data/" + filename) as fil:
@@ -17,7 +19,7 @@ DATASETS = [("swiss_data.csv", None), ("digits.csv", "digits_label.csv")]
 REDUCERS = {
     "PCA": None,
     "ISOMAP": None,
-    "t-SNE": None
+    "t-SNE": TSNE()
 }
 
 # 10 hardcoded colors
