@@ -9,7 +9,7 @@ from kNN import k_nearest
 class IsoMap(DimRed):
     """Subclass for Dimensionality reduction using isometric mapping"""
 
-    k = 10
+    k = 40
     m = 2
 
     def get_description(self):

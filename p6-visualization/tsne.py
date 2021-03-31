@@ -13,4 +13,4 @@ class TSNE(DimRed):
         return "Student t-Distributed Stochastic Neighbor Embedding"
 
     def reduce_dimensions(self, dataset):
-        raise NotImplementedError()
+        return dataset[:,:2]

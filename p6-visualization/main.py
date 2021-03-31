@@ -59,9 +59,9 @@ def main():
     if labels is not None:
         colors = [pick_color(x) for x in labels]
     else:
-        colors = None
+        colors = range(len(reduced))
 
-    plt.scatter(reduced[:,0], reduced[:,1], c=colors)
+    plt.scatter(reduced[:,0], reduced[:,1], c=colors, cmap='rainbow')
     plt.show()
 
 
