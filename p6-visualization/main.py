@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from tsne import TSNE
+from isomap import IsoMap
 
 def read_csv(filename, sep=","):
     """Reads the content of a csv into a numpy matrix. Each line becomes a row"""
@@ -18,7 +19,7 @@ DATASETS = [("swiss_data.csv", None), ("digits.csv", "digits_label.csv")]
 # The different algos for dimension reduction
 REDUCERS = {
     "PCA": None,
-    "ISOMAP": None,
+    "ISOMAP": IsoMap(),
     "t-SNE": TSNE()
 }
 
