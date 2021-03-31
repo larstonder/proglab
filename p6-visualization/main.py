@@ -19,7 +19,7 @@ DATASETS = [("swiss_data.csv", None), ("digits.csv", "digits_label.csv")]
 REDUCERS = {
     "PCA": None,
     "ISOMAP": None,
-    "t-SNE": TSNE()
+    "T-SNE": TSNE()
 }
 
 # 10 hardcoded colors
@@ -58,9 +58,9 @@ def main():
     if labels is not None:
         colors = [pick_color(x) for x in labels]
     else:
-        colors = None
+        colors = range(len(reduced))
 
-    plt.scatter(reduced[:,0], reduced[:,1], c=colors)
+    plt.scatter(reduced[:,0], reduced[:,1], c=colors, cmap='rainbow')
     plt.show()
 
 
