@@ -43,6 +43,7 @@ class IsoMap(DimRed):
         # centering = np.subtract(np.identity(numpoints), np.multiply((1/numpoints), ones))
         centering = np.subtract(np.identity(numpoints), np.multiply((1/numpoints), np.dot(np.full(1, 1), np.full(1,1).T)))
         double_centering = np.multiply(-(1/2), np.dot(centering, squared))
-        e_values, e_vectors = sp.eigh(double_centering, eigvals=(numpoints-self.m, numpoints-1))
+        # e_values, e_vectors = sp.eigh(double_centering, eigvals=(numpoints-self.m, numpoints-1))
+        e_values, e_vectors = np.linalg.eig(double_centering)
         print(np.dot(e_vectors, np.sqrt(np.diag(e_values))))
         return np.dot(e_vectors, np.sqrt(np.diag(e_values)))
