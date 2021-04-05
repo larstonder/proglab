@@ -14,10 +14,11 @@ class PCA:
         self.length_of_data = len(dataset)
 
     def fit(self):
+        """Method for fiting a PCA model for the dataset"""
         centered_data = self.center_data()
         covarance_matrix_sigma = np.cov(centered_data, self.dataset)
         transformation_matrix = np.array()
-        #TODO Finne ut hva D og d er, filtrere å legge til de riktige eigenvektorene i transformasjons matrisen
+        #TODO Finne ut hva D og d er, filtrere å legge til de riktige eigenvektorene i transformasjons matrisen.
         if D - 1 > d:
             eigvals, eigvecs = sp.sparse.linalg.eigs(covarance_matrix_sigma)
         elif D - 1 == d:
@@ -25,13 +26,15 @@ class PCA:
 
         return transformation_matrix, centered_data
 
-    def trasform(self):
+    def transform(self):
+        """Method for transforming the dataset to 2 dimentions"""
         transformation_matrix, centered_data = self.fit()
         projected_data = np.dot(transformation_matrix, centered_data)
         return projected_data #Denne dataen som skal plotes med matplotlib
 
 
     def center_data(self):
+        """Method for centering the data"""
         my = self.dataset.sum / self.length_of_data
         centered_data = np.array()
         for datapoint in self.dataset:
