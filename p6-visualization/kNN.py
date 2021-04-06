@@ -13,7 +13,12 @@ def k_nearest(dataset, k):
     numpoints = len(dataset)
 
     # The squared distances
-    dist = ((dataset[:, :, None] - dataset[:, :, None].T) ** 2).sum(1)
+    X = dataset
+    XX = np.square(X)
+    V = np.sum(XX, axis=1, keepdims=True)
+    D_2 = V.T + V - 2*(X @ X.T)
+    D_2 = np.abs(D_2)
+    dist = np.sqrt(D_2)
     assert dist.shape == (numpoints,numpoints)
 
     for i in range(numpoints):
@@ -23,7 +28,7 @@ def k_nearest(dataset, k):
         for _,j in shortest[(k+1):]:
             dist[i][j] = 0
 
-    return np.sqrt(dist)
+    return dist
 
 def symmetric_binary_k_nearest(dataset, k):
     """Makes a comutative neighbour matrix where

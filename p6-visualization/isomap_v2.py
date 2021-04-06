@@ -9,7 +9,7 @@ from scipy.sparse.linalg import eigs
 
 class IsoMap2(DimRed):
 
-    k = 15
+    k = 50
     m = 2
 
     def get_description(self):
