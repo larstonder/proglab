@@ -12,9 +12,13 @@ def k_nearest(dataset, k):
 
     numpoints = len(dataset)
 
-    # The squared distances
-    dist = [[np.linalg.norm(dataset[i]-dataset[j]) for j in range(numpoints)] for i in range(numpoints)]
-    dist = np.array(dist)
+    # The squared distances, taken from piazza
+    X = dataset
+    XX = np.square(X)
+    V = np.sum(XX, axis=1, keepdims=True)
+    D_2 = V.T + V - 2*(X @ X.T)
+    D_2 = np.abs(D_2)
+    dist = np.sqrt(D_2)
     assert dist.shape == (numpoints,numpoints)
 
     for i in range(numpoints):
