@@ -5,14 +5,14 @@ import numpy as np
 
 def k_nearest(dataset, k):
     """Takes a numpy array with each row being a datapoint,
-    returns a matrix with pairwise squared distances.
+    returns a matrix with pairwise distances.
     Will only keep the k shortest distances for each datapoint.
     Keep in mind it is not symmetric.
     result[i][j] is non-0 iff j is among the k nearest to i"""
 
     numpoints = len(dataset)
 
-    # The squared distances
+    # The squared distances, taken from piazza
     X = dataset
     XX = np.square(X)
     V = np.sum(XX, axis=1, keepdims=True)
