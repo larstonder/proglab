@@ -1,7 +1,7 @@
 """Implementation of the Principal Component Analysis"""
 
 import numpy as np
-import scipy as sp
+from scipy.sparse.linalg import eigs
 from dimred import DimRed
 
 
@@ -26,42 +26,26 @@ class PCA(DimRed):
         """Method for fiting a PCA model for the dataset"""
         centered_data = self.center_data()
         D = len(centered_data[0])
-        covarance_matrix_sigma = np.cov(centered_data, self.dataset)
-        transformation_matrix = np.empty([self.d, self.d])
-        #Tror D er dimensjonen på covariance matrisen, og d er ønsket dimensjon
+        covarance_matrix_sigma = np.cov(centered_data.T)
         if D - 1 > self.d:
-            eigvals, eigvecs = sp.sparse.linalg.eigs(covarance_matrix_sigma)
+            [eigvals, eigvecs] = eigs(covarance_matrix_sigma, k=self.d)
         elif D - 1 == self.d:
-            eigvals, eigvecs = np.linalg.eigh(covarance_matrix_sigma)
-        eignvals_with_eigenvecs = []
-        for i in range(len(eigvals)):
-            eignvals_with_eigenvecs.append((eigvals[i], eigvecs[i]))
-        for i in range(self.d):
-            largest_eigenval = 0
-            index_of_largest_eigenval = 0
-            for j in range(len(eignvals_with_eigenvecs)):
-                if eignvals_with_eigenvecs[j][0] > largest_eigenval:
-                    largest_eigenval = eignvals_with_eigenvecs[j][0]
-                    index_of_largest_eigenval = j
-            np.append(transformation_matrix, eignvals_with_eigenvecs[index_of_largest_eigenval][1])
-            eignvals_with_eigenvecs.pop(index_of_largest_eigenval)
-
-        return transformation_matrix, centered_data
+            [eigvals, eigvecs] = np.linalg.eigh(covarance_matrix_sigma)
+            index_eigvecs_of_largest_eigvals = np.argsort(eigvals)[::-1]
+            eigvecs = eigvecs[:, index_eigvecs_of_largest_eigvals[:self.d]]
+        print(np.real(eigvecs))
+        return np.real(eigvecs), centered_data
 
     def transform(self):
         """Method for transforming the dataset to 2 dimentions"""
-        transformation_matrix, centered_data = self.fit()
-        projected_data = np.dot(transformation_matrix, centered_data)
-        return projected_data #Denne dataen som skal plotes med matplotlib
+        eigvecs, centered_data = self.fit()
+        projected_data = centered_data @ eigvecs
+        return projected_data
 
 
     def center_data(self):
         """Method for centering the data"""
-        sigma = np.sum(self.dataset)
-        print(sigma)
-        my = sigma / self.length_of_data
-        centered_data = np.empty([len(self.dataset[0]), len(self.dataset)])
-        for datapoint in self.dataset:
-            centered_point = np.subtract(datapoint, my)
-            np.append(centered_data, centered_point)
+        my = np.mean(self.dataset, axis=0)
+        centered_data = self.dataset - my
+        print(centered_data.shape)
         return centered_data
