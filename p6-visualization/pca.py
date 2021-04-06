@@ -12,7 +12,7 @@ class PCA(DimRed):
     d = 2
 
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
 
     def get_description(self):
         return "Implementation of Dimensionality reduction using Principal Component Analysis"
@@ -27,7 +27,7 @@ class PCA(DimRed):
         centered_data = self.center_data()
         D = len(centered_data[0])
         covarance_matrix_sigma = np.cov(centered_data, self.dataset)
-        transformation_matrix = np.array()
+        transformation_matrix = np.empty([self.d, self.d])
         #Tror D er dimensjonen på covariance matrisen, og d er ønsket dimensjon
         if D - 1 > self.d:
             eigvals, eigvecs = sp.sparse.linalg.eigs(covarance_matrix_sigma)
@@ -57,9 +57,11 @@ class PCA(DimRed):
 
     def center_data(self):
         """Method for centering the data"""
-        my = self.dataset.sum / self.length_of_data
-        centered_data = np.array() 
+        sigma = np.sum(self.dataset)
+        print(sigma)
+        my = sigma / self.length_of_data
+        centered_data = np.empty([len(self.dataset[0]), len(self.dataset)])
         for datapoint in self.dataset:
             centered_point = np.subtract(datapoint, my)
-            np.append(centered_data, centered_point, axis=0)
+            np.append(centered_data, centered_point)
         return centered_data
