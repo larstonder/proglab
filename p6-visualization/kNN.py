@@ -3,6 +3,13 @@
 
 import numpy as np
 
+def pairwise_squared_dist(dataset):
+    """Finds the pairwise squared euclidian distances between the points in the dataset"""
+    dataset_sqrd = np.square(dataset)
+    sums = np.sum(dataset_sqrd, axis=1, keepdims=True)
+    dist_sqrd = sums.T + sums - 2*(dataset @ dataset.T)
+    return np.abs(dist_sqrd)
+
 def k_nearest(dataset, k):
     """Takes a numpy array with each row being a datapoint,
     returns a matrix with pairwise distances.
@@ -13,28 +20,22 @@ def k_nearest(dataset, k):
     numpoints = len(dataset)
 
     # The squared distances, taken from piazza
-    X = dataset
-    XX = np.square(X)
-    V = np.sum(XX, axis=1, keepdims=True)
-    D_2 = V.T + V - 2*(X @ X.T)
-    D_2 = np.abs(D_2)
-    dist = np.sqrt(D_2)
+    print("\t-kNN: Calculating all pairwise distances")
+    dist = np.sqrt(pairwise_squared_dist(dataset))
     assert dist.shape == (numpoints,numpoints)
 
+    print("\t-kNN: Keeping only the k shortest")
+    # We actually keep the k+1 shortest, since we count i-i as a distance (0 of course)
     for i in range(numpoints):
-        shortest = [(dist[i][j], j) for j in range(numpoints)]
-        shortest.sort() # The k shortest come first, the rest will be set to 0
-        # The shortest array also contains the distance from i to i, so increase k by one
-        for _,j in shortest[(k+1):]:
-            dist[i][j] = 0
+        dist[i][np.argpartition(dist[i], k+1)[k+1:]]=0
 
     return dist
 
 def symmetric_binary_k_nearest(dataset, k):
     """Makes a comutative neighbour matrix where
-    result[i][j]=True iff j is among the k nearest neighbours of i, or vice versa"""
+    result[i][j]=1 iff j is among the k nearest neighbours of i, or vice versa"""
 
     dist = k_nearest(dataset, k)
     dist = dist != 0 # Make the matrix binary
     dist |= dist.T # Make the matrix symmetric
-    return dist
+    return np.where(dist, 1, 0) # Return numeric boolean

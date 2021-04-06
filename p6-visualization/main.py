@@ -38,13 +38,13 @@ def main():
     print("Pick your dataset: ")
     for index, datalabel in enumerate(DATASETS):
         data, label = datalabel
-        print(f" {index+1} - {data}", " (with label)" if label is not None else "")
+        print(f" {index+1} - {data}", " (with labels)" if label is not None else "")
 
     selected = int(input("Choice: "))
 
     data, label = DATASETS[selected-1]
     dataset = read_csv(data)
-    labels = read_csv(label) if label is not None else None
+    labels = read_csv(label)[:,0] if label is not None else None
 
     print("Pick your dimension reduction: ")
 
@@ -57,11 +57,20 @@ def main():
     reduced = reducer.reduce_dimensions(dataset)
 
     if labels is not None:
-        colors = [pick_color(x) for x in labels]
+        print("labels: ", labels)
+        options = {
+            'c': [pick_color(x) for x in labels],
+            'label': labels
+        }
     else:
-        colors = range(len(reduced))
+        options = {
+            'c': range(len(reduced)),
+            'cmap': 'rainbow'
+        }
 
-    plt.scatter(reduced[:,0], reduced[:,1], c=colors, cmap='rainbow')
+    _, axes = plt.subplots()
+    axes.scatter(reduced[:,0], reduced[:,1], **options)
+    axes.legend()
     plt.show()
 
 
