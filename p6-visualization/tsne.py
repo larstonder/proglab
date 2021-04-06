@@ -14,7 +14,7 @@ class TSNE(DimRed):
 
     def __init__(self):
         DimRed.__init__(self)
-        self.k = 20
+        self.k = 40
         self.max_iterations = 1000
         self.p_multiplier = lambda x: 4 if x < 100 else 1
         self.alpha = lambda x: 0.5 if x < 250 else 0.8

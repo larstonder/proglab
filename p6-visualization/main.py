@@ -20,16 +20,8 @@ DATASETS = [("swiss_data.csv", None), ("digits.csv", "digits_label.csv")]
 REDUCERS = {
     "PCA": None,
     "ISOMAP": IsoMap(),
-    "t-SNE": TSNE()
+    "T-SNE": TSNE()
 }
-
-# 10 hardcoded colors
-COLORS_10 = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
-             '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
-
-def pick_color(label):
-    """Picks a color based on a label. We have hardcoded for labels to be integers 0-9"""
-    return COLORS_10[int(label)]
 
 def main():
     """The main function, entry point of the program"""
@@ -57,10 +49,9 @@ def main():
     reduced = reducer.reduce_dimensions(dataset)
 
     if labels is not None:
-        print("labels: ", labels)
         options = {
-            'c': [pick_color(x) for x in labels],
-            'label': labels
+            'c': labels,
+            'cmap': 'tab10'
         }
     else:
         options = {
@@ -69,8 +60,10 @@ def main():
         }
 
     _, axes = plt.subplots()
-    axes.scatter(reduced[:,0], reduced[:,1], **options)
-    axes.legend()
+    scatter = axes.scatter(reduced[:,0], reduced[:,1], **options)
+    if labels is not None:
+        legend1 = axes.legend(*scatter.legend_elements())
+        axes.add_artist(legend1)
     plt.show()
 
 
