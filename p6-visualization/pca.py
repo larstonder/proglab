@@ -2,17 +2,25 @@
 
 import numpy as np
 import scipy as sp
+from dimred import DimRed
 
 
-class PCA:
-    """Implementation of the Principal Component Analysis"""
+class PCA(DimRed):
+    """Subclass of dimred, Implementation of Dimensionality reduction using Principal Component Analysis"""
     dataset = None
     length_of_data = None
     d = 2
 
-    def __init__(self, dataset):
+    def __init__(self):
+        super().__init__(self)
+
+    def get_description(self):
+        return "Implementation of Dimensionality reduction using Principal Component Analysis"
+
+    def reduce_dimensions(self, dataset):
         self.dataset = dataset
         self.length_of_data = len(dataset)
+        return self.transform()
 
     def fit(self):
         """Method for fiting a PCA model for the dataset"""
