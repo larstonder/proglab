@@ -33,7 +33,6 @@ class PCA(DimRed):
             [eigvals, eigvecs] = np.linalg.eigh(covarance_matrix_sigma)
             index_eigvecs_of_largest_eigvals = np.argsort(eigvals)[::-1]
             eigvecs = eigvecs[:, index_eigvecs_of_largest_eigvals[:self.d]]
-        print(np.real(eigvecs))
         return np.real(eigvecs), centered_data
 
     def transform(self):
