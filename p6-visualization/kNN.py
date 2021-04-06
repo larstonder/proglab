@@ -5,7 +5,7 @@ import numpy as np
 
 def k_nearest(dataset, k):
     """Takes a numpy array with each row being a datapoint,
-    returns a matrix with pairwise squared distances.
+    returns a matrix with pairwise distances.
     Will only keep the k shortest distances for each datapoint.
     Keep in mind it is not symmetric.
     result[i][j] is non-0 iff j is among the k nearest to i"""
@@ -13,7 +13,8 @@ def k_nearest(dataset, k):
     numpoints = len(dataset)
 
     # The squared distances
-    dist = ((dataset[:, :, None] - dataset[:, :, None].T) ** 2).sum(1)
+    dist = [[np.linalg.norm(dataset[i]-dataset[j]) for j in range(numpoints)] for i in range(numpoints)]
+    dist = np.array(dist)
     assert dist.shape == (numpoints,numpoints)
 
     for i in range(numpoints):
@@ -23,7 +24,7 @@ def k_nearest(dataset, k):
         for _,j in shortest[(k+1):]:
             dist[i][j] = 0
 
-    return np.sqrt(dist)
+    return dist
 
 def symmetric_binary_k_nearest(dataset, k):
     """Makes a comutative neighbour matrix where
