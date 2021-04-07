@@ -15,7 +15,7 @@ class TSNE(DimRed):
 
     def __init__(self):
         DimRed.__init__(self)
-        self.k = 40
+        self.k = 15
         self.max_iterations = 1000
         self.p_multiplier = lambda x: 4 if x < 100 else 1
         self.alpha = lambda x: 0.5 if x < 250 else 0.8
@@ -25,7 +25,7 @@ class TSNE(DimRed):
     def get_description(self):
         return "Student t-Distributed Stochastic Neighbor Embedding"
 
-    def reduce_dimensions(self, dataset):
+    def reduce_dimensions(self, dataset, callback=None):
         n = len(dataset)
         print("Dataset size:", n)
         print("Calculating symmetric binary kNN, k:", self.k)
@@ -71,7 +71,10 @@ class TSNE(DimRed):
             delta = self.alpha(iteration) * delta - self.epsilon * g * gradient
             Y = Y + delta
 
-            done = iteration + 1
+            if callback != None:
+                callback(iteration, Y)
+
+            done = iteration+1
             if done % 10 == 0:
                 time_spent = time() - start
                 time_per = time_spent / done

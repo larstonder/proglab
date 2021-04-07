@@ -47,8 +47,6 @@ def main():
     selected = input("Choice: ").strip().upper()
     reducer = REDUCERS[selected]
 
-    reduced = reducer.reduce_dimensions(dataset)
-
     if labels is not None:
         options = {
             'c': labels,
@@ -56,17 +54,28 @@ def main():
         }
     else:
         options = {
-            'c': range(len(reduced)),
+            'c': range(len(dataset)),
             'cmap': 'rainbow'
         }
 
-    _, axes = plt.subplots()
-    scatter = axes.scatter(reduced[:,0], reduced[:,1], **options)
-    if labels is not None:
-        legend1 = axes.legend(*scatter.legend_elements())
-        axes.add_artist(legend1)
-    plt.show()
+    global maxSeen
+    maxSeen = 0.002
+    def draw_callback(iteration, reduced):
+        global maxSeen
 
+        maxSeen = np.amax(np.abs(reduced), initial=maxSeen)
+
+        figure, axes = plt.subplots(figsize=(8,8))
+        scatter = axes.scatter(reduced[:,0], reduced[:,1], **options)
+        axes.set_xlim((-maxSeen*1.1, maxSeen*1.1))
+        axes.set_ylim((-maxSeen*1.1, maxSeen*1.1))
+        if labels is not None:
+            legend1 = axes.legend(*scatter.legend_elements())
+            axes.add_artist(legend1)
+        figure.savefig(f"images/k15/{iteration:04d}.png")
+        return figure
+
+    reducer.reduce_dimensions(dataset, draw_callback)
 
 if __name__ == "__main__":
     main()
